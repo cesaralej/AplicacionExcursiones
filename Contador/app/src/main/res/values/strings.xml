@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Contador</string>
+    <string name="fotoJoven">Foto Joven</string>
+    <string name="ejemploNombre">Ejemplo Nombre</string>
+    <string name="ejemploDestino">Destino</string>
+    <string name="List_button_text">Complete List</string>
+    <string name="nfc_button_text">NFC Test</string>
+</resources>

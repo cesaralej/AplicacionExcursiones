@@ -26,7 +26,7 @@ import csv
 DATABASE = {}
 FIELDS = ["uniqueId", "Nombre", "Apellidos", "Telefono", "Correo", "Dia", "Mes", "Year", "Colegio", "Codio de Seguro", "Tipo de Sangre", "Pasaportes", "Numero de Pasaportes", "Destino", "Nombre Padre", "Telefono Padre", "Nombre Madre", "Telefono Madre"]
 
-
+# Abre la base de datos
 with open('database.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     next(csv_reader)
@@ -34,7 +34,7 @@ with open('database.csv') as csv_file:
         DATABASE[str(line[0])] = {'id': line[0], 'name': line[1], 'lastName': line[2], 'phone': line[3], 'email': line[4], 'day': line[5], 'month': line[6], 'year': line[7], 'school': line[8], 'insuranceCode': line[9], 'bloodType': line[10], 'passports': line[11], 'passportNumbers': line[12], 'destination': line[13], 'fatherName': line[14], 'fatherPhone': line[15], 'motherName': line[16], 'motherPhone': line[17]}
         # line[0] = Viajero(line[0], line[1], line[2], line[3], line[4], line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14], line[15], line[16], line[17])
 
-
+#Busca a una persona en la base de datos y regresa su info
 def buscar():
     persona = input('A quien quieres busar? ')
     count = 0
@@ -42,13 +42,13 @@ def buscar():
         print(FIELDS[count] + ":", info)
         count += 1
 
-
+#Crea las listas de ausentes (del bus) y agregados (al bus). Los viajeros son automaticamente agregados a la lista de ausentes
 AUSENTES = []
 AGREGADOS = []
 for viajero in DATABASE.keys():
     AUSENTES.append(viajero)
 
-
+#Agrega a alguien a la lista de agregados. Esta persona esta entrando al bus
 def agregarLista():
 
     while True:
@@ -71,17 +71,17 @@ def agregarLista():
         else:
             print('El id', nuevo, 'no esta registrado!')
 
-
+#Regresa la lista de las personas ausentes al bus
 def verAusentes():
     for viajero in AUSENTES:
         print(DATABASE[viajero]['name'])
 
-
+#Regresa la lista de las personas en el bus
 def verAgregados():
     for viajero in AGREGADOS:
         print(DATABASE[viajero]['name'])
 
-
+#Si una persona decide salir del bus mientras se realiza un conteo, se puede cambiar a la persona de la lista de agregados a la lista de ausentes.
 def quitarLista():
 
     while True:
@@ -104,7 +104,7 @@ def quitarLista():
         else:
             print('El id', nuevo, 'no esta registrado!')
 
-
+#Limpia la lista de ausentes para empezar un nuevo conteo
 def borrarLista():
     AUSENTES.clear()
     for viajero in DATABASE.keys():
@@ -114,7 +114,7 @@ def borrarLista():
 
 CONTADOR = {'vau': verAusentes, 'vag': verAgregados, 'a': agregarLista, 'r': quitarLista, 'b': borrarLista}
 
-
+#Opciones para el usuario dentro del contador
 def contador():
 
     while True:
@@ -130,7 +130,7 @@ def contador():
 def asignarManilla():
     pass
 
-
+#Opciones del menu principal
 MENUPRINCIPAL = {'b': buscar, 'c': contador}
 
 

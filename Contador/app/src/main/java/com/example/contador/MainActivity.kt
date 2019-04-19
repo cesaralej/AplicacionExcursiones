@@ -17,10 +17,7 @@ class MainActivity : AppCompatActivity() {
         btnOpenList.setOnClickListener {
             val intent = Intent(this, CompleteListActivity::class.java)
             startActivity(intent)
-
-    }
-
-
+        }
     }
 
 

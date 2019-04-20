@@ -1,5 +1,8 @@
 import csv
 
+#Opciones del menu principal
+MENUPRINCIPAL = {'b': buscar, 'c': contador}
+CONTADOR = {'vau': verAusentes, 'vag': verAgregados, 'a': agregarLista, 'r': quitarLista, 'b': borrarLista}
 
 # class Viajero:
 #     def __init__(self, uniqueId, name, lastName, phone, email, day, month, year, school, insuranceCode, bloodType, passports, passportNumbers, destination, fatherName, fatherPhone, motherName, motherPhone):
@@ -113,7 +116,6 @@ def borrarLista():
     print("Lista Reseteada!")
 
 
-CONTADOR = {'vau': verAusentes, 'vag': verAgregados, 'a': agregarLista, 'r': quitarLista, 'b': borrarLista}
 
 #Opciones para el usuario dentro del contador
 def contador():
@@ -131,8 +133,6 @@ def contador():
 def asignarManilla():
     pass
 
-#Opciones del menu principal
-MENUPRINCIPAL = {'b': buscar, 'c': contador}
 
 
 def main():

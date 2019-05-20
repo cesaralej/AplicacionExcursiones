@@ -6,16 +6,13 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Button
+import com.example.contador.Data.AppDatabase
+import kotlin.experimental.and
 
 class NfcActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     private var nfcAdapter: NfcAdapter? = null
-
-
-
-
-
-
+    private var db: AppDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +42,28 @@ class NfcActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     override fun onTagDiscovered(tag: Tag?) {
         Log.d(TAG, "Tarjeta Leida")
+        var tagIdBytes = tag!!.id
+        var tagIdString = ByteArrayToHexString(tagIdBytes)
+        Log.d(TAG, tagIdString)
+    }
+
+    private fun ByteArrayToHexString(inarray: ByteArray): String {
+        var i: Int
+        var j: Int
+        var `in`: Int
+        val hex = arrayOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F")
+        var out = ""
+
+        j = 0
+        while (j < inarray.size) {
+            `in` = inarray[j].toInt() and 0xff
+            i = `in` shr 4 and 0x0f
+            out += hex[i]
+            i = `in` and 0x0f
+            out += hex[i]
+            ++j
+        }
+        return out
     }
 
 

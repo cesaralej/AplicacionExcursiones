@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         }).doOnNext({ list ->
             var finalString = ""
             list?.map { finalString += it.name + " - " }
-            Log.d("DEBUG", finalString)
+            Log.d("MAU", finalString)
         }).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()

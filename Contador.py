@@ -1,5 +1,8 @@
 import csv
 
+#Opciones del menu principal
+MENUPRINCIPAL = {'b': buscar, 'c': contador}
+CONTADOR = {'vau': verAusentes, 'vag': verAgregados, 'a': agregarLista, 'r': quitarLista, 'b': borrarLista}
 
 # class Viajero:
 #     def __init__(self, uniqueId, name, lastName, phone, email, day, month, year, school, insuranceCode, bloodType, passports, passportNumbers, destination, fatherName, fatherPhone, motherName, motherPhone):
@@ -27,7 +30,7 @@ DATABASE = {}
 FIELDS = ["uniqueId", "Nombre", "Apellidos", "Telefono", "Correo", "Dia", "Mes", "Year", "Colegio", "Codio de Seguro", "Tipo de Sangre", "Pasaportes", "Numero de Pasaportes", "Destino", "Nombre Padre", "Telefono Padre", "Nombre Madre", "Telefono Madre"]
 
 # Abre la base de datos
-with open('database.csv') as csv_file:
+with open('fakedatabase.csv') as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     next(csv_reader)
     for line in csv_reader:
@@ -110,15 +113,15 @@ def borrarLista():
     for viajero in DATABASE.keys():
         AUSENTES.append(viajero)
     AGREGADOS.clear()
+    print("Lista Reseteada!")
 
 
-CONTADOR = {'vau': verAusentes, 'vag': verAgregados, 'a': agregarLista, 'r': quitarLista, 'b': borrarLista}
 
 #Opciones para el usuario dentro del contador
 def contador():
 
     while True:
-        accion = input('Que quieres hacer? ')
+        accion = input('Que quieres hacer? (Agregar, Quitar, Ver Ausentes, Ver Agregados, Reset) ')
         if accion == 'q':
             break
         elif accion in CONTADOR.keys():
@@ -130,13 +133,11 @@ def contador():
 def asignarManilla():
     pass
 
-#Opciones del menu principal
-MENUPRINCIPAL = {'b': buscar, 'c': contador}
 
 
 def main():
     while True:
-        accion = input('Que quieres hacer? ')
+        accion = input('Que quieres hacer? (Buscar, Contador, Administrar NFC) ')
         if accion == 'q':
             break
         elif accion in MENUPRINCIPAL.keys():

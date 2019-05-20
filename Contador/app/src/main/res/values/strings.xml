@@ -6,4 +6,6 @@
     <string name="List_button_text">Complete List</string>
     <string name="nfc_button_text">NFC Test</string>
     <string name="title_activity_test">TestActivity</string>
+    <string name="NFCboton1">Leer NFC</string>
+    <string name="NFCbutton2">Agregar a base de datos</string>
 </resources>

@@ -12,6 +12,9 @@
         <activity
                 android:name=".CompleteListActivity">
         </activity>
+        <activity
+                android:name=".NfcActivity">
+        </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -20,6 +23,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ListaActivity"/>
+
     </application>
+
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
 
 </manifest>

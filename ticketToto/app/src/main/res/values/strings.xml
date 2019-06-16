@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Ticket Toto</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+    <!-- Login Fragment -->
+    <string name="fragment_login_header_title">Welcome!</string>
+    <string name="fragment_login_username">Email</string>
+    <string name="fragment_login_password">Password</string>
+    <string name="fragment_login_button">Login</string>
+</resources>

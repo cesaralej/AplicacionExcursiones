@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "498558273552",
+    "firebase_url": "https://tickettoto-cbc36.firebaseio.com",
+    "project_id": "tickettoto-cbc36",
+    "storage_bucket": "tickettoto-cbc36.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498558273552:android:e23a7231fc3f8dd2",
+        "android_client_info": {
+          "package_name": "com.example.tickettoto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498558273552-rmhus8c8fsoao27fld6im5qnf70bsfkt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tickettoto",
+            "certificate_hash": "c73858652ccbc975586ce5360e120ff316be1381"
+          }
+        },
+        {
+          "client_id": "498558273552-99p7hfliq8ollo3osdb0os6ok91tr8oc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQgynjB4Nyue_AvYqWE0GFxDZSeGmLLbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498558273552-99p7hfliq8ollo3osdb0os6ok91tr8oc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

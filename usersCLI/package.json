@@ -1,0 +1,17 @@
+{
+  "name": "userscli",
+  "version": "1.0.0",
+  "description": "TicketsToto users CLI",
+  "main": "seed.js",
+  "scripts": {
+    "trainers": "node trainers.js",
+    "seed": "node seed.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "sjdonado",
+  "license": "ISC",
+  "dependencies": {
+    "csv-parser": "^2.3.0",
+    "firebase-admin": "^8.1.0"
+  }
+}

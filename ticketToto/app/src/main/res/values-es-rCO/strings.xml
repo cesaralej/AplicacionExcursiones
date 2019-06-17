@@ -7,4 +7,6 @@
     <string name="fragment_login_button">Iniciar sesión</string>
     <string name="fragment_login_password_error">Contraseña vacía</string>
     <string name="fragment_login_username_error">Email vacío</string>
+    <string name="fragment_home_user_status_false">Sin revisar</string>
+    <string name="fragment_home_user_status_true">Revisado</string>
 </resources>

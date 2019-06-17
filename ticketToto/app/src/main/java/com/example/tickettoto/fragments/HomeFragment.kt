@@ -12,19 +12,17 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 import com.example.tickettoto.R
 import com.example.tickettoto.adapters.UsersAdapter
+import com.example.tickettoto.helpers.Utils
 import com.example.tickettoto.models.User
-import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.FirebaseError
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.gson.Gson
 
 
 class HomeFragment : Fragment() {
 
     companion object {
         fun getInstance(): HomeFragment = HomeFragment()
-        val usersChildPath = "users"
+        val usersCollection = "users"
         val TAG = "HOME_FRAGMENT"
     }
 
@@ -41,27 +39,37 @@ class HomeFragment : Fragment() {
 
         val viewManager = LinearLayoutManager(activity!!)
 
-        val database = FirebaseDatabase.getInstance()
-        database.setPersistenceEnabled(true)
+        val db = FirebaseFirestore.getInstance()
 
-        val usersRef = database.reference.child(usersChildPath)
-        usersRef.keepSynced(true)
+        val usersCollection = db.collection(usersCollection)
+        val users = ArrayList<User>()
 
-        val mQuery = usersRef.orderByKey()
+        val usersAdapter = UsersAdapter(activity!!, users)
 
-        val mOptions = FirebaseRecyclerOptions.Builder<User>()
-                .setQuery(usersRef, User::class.java)
-                .setLifecycleOwner(this)
-                .build()
+        val progressDialog = Utils.showLoading(activity!!)
+        usersCollection.get()
+            .addOnSuccessListener { result ->
+                for (document in result) {
+                    users.add(Gson().fromJson(Gson().toJson(document.data).toString(), User::class.java))
+                    Log.d(TAG, "${document.id} => ${document.data}")
+                }
+                usersAdapter.notifyDataSetChanged()
+                progressDialog.hide()
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents.", exception)
+                progressDialog.hide()
+            }
 
-        val usersAdapter = UsersAdapter(mOptions)
-
-        Log.d(TAG, usersAdapter.snapshots.toString())
 
         homeUsersRecyclerView.apply {
             setHasFixedSize(true)
             layoutManager = viewManager
             adapter = usersAdapter
         }
+
+//        homeNFCButton.setOnClickListener {
+//
+//        }
     }
 }

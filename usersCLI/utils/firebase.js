@@ -2,6 +2,8 @@ const admin = require('firebase-admin');
 
 const serviceAccount = require('../data/tickettoto-firebase-adminsdk-jmmzl-45be2446bc.json');
 
+const PROJECT_NAME = 'tickettoto';
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://tickettoto.firebaseio.com',
@@ -9,7 +11,10 @@ admin.initializeApp({
 
 const auth = admin.auth();
 
-const firebase = admin.database();
+const storage = admin.storage().bucket(`gs://${PROJECT_NAME}.appspot.com`);
+
+const db = admin.firestore();
+db.settings({ timestampsInSnapshots: true });
 
 const uploadFile = async function uploadFile(storagePath, file) {
   const fileName = `${new Date().getTime()}.${file.mimetype.split('/')[1]}`;
@@ -34,7 +39,7 @@ const deleteFile = async filename => storage.file(filename).delete();
 
 module.exports = {
   auth,
-  firebase,
+  db,
   uploadFile,
   deleteFile,
 };

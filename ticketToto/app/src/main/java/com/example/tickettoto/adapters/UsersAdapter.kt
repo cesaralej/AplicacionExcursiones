@@ -1,31 +1,35 @@
 package com.example.tickettoto.adapters
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.tickettoto.models.User
 
 import com.example.tickettoto.R
-import com.firebase.ui.common.ChangeEventType
-import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.firebase.ui.database.FirebaseRecyclerOptions
-import com.google.firebase.database.DataSnapshot
+import com.example.tickettoto.helpers.Utils
 
 
-class UsersAdapter(mOptions: FirebaseRecyclerOptions<User>)
-    : FirebaseRecyclerAdapter<User, UsersAdapter.MyViewHolder>(mOptions){
+class UsersAdapter(private val activity: Activity, private val users: ArrayList<User>)
+    : RecyclerView.Adapter<UsersAdapter.MyViewHolder>(){
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var name: TextView = itemView.findViewById(R.id.userRecyclerCardName)
         private var email: TextView = itemView.findViewById(R.id.userRecyclerCardEmail)
         private var status: TextView = itemView.findViewById(R.id.userRecyclerCardStatus)
 
-        fun bind(user: User) {
+        fun bind(activity: Activity, user: User) {
+            Glide.with(activity).load(user.profilePicture)
+                .apply(RequestOptions().placeholder(Utils.getCircularProgressDrawable(activity)))
+                .into(itemView.findViewById(R.id.userRecyclerCardCoverImageView))
             name.text = user.name
             email.text = user.email
-            status.text = "Adentro"
+            status.text = if (user.status!!) activity.resources.getString(R.string.fragment_home_user_status_true)
+                else activity.resources.getString(R.string.fragment_home_user_status_false)
         }
     }
 
@@ -35,12 +39,10 @@ class UsersAdapter(mOptions: FirebaseRecyclerOptions<User>)
         return MyViewHolder(view)
     }
 
-    override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int, model: User) {
-        viewHolder.bind(model)
+    override fun onBindViewHolder(viewHolder: MyViewHolder, position: Int) {
+        viewHolder.bind(activity, users[position])
     }
 
-    override fun onChildChanged(type: ChangeEventType, snapshot: DataSnapshot, newIndex: Int, oldIndex: Int) {
-        super.onChildChanged(type, snapshot, newIndex, oldIndex)
-//        rcvListMessage.scrollToPosition(newIndex)
-    }
+    override fun getItemCount() = users.size
+
 }

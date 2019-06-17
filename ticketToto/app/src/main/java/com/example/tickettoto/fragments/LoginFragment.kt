@@ -11,8 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 
 import com.example.tickettoto.R
+import com.example.tickettoto.helpers.FragmentHandler
+import com.example.tickettoto.helpers.Utils
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login.*
@@ -38,24 +41,25 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val fragmentHandler = FragmentHandler(activity!! as AppCompatActivity, R.id.main_fragment_container)
+
         mAuth = FirebaseAuth.getInstance()
 
         setEditTextValidation(userNameEditText, getString(R.string.fragment_login_username_error))
         setEditTextValidation(passwordEditText, getString(R.string.fragment_login_password_error))
 
         loginButton.setOnClickListener {
+            val progressDialog = Utils.showLoading(activity!!)
             FirebaseAuth.getInstance().signInWithEmailAndPassword(userNameEditText.editText!!.text.toString(), passwordEditText.editText!!.text.toString())
                 .addOnCompleteListener(activity!!) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
                         Log.d(TAG, mAuth.currentUser!!.email.toString())
-    //                    updateUI(user)
+                        progressDialog.hide()
+                        fragmentHandler.add(HomeFragment.getInstance())
                     } else {
-
-                        // If sign in fails, display a message to the user.
                         Log.w(TAG, "signInWithEmail:failure", task.exception)
-                        Toast.makeText(activity!!, "Authentication failed.", Toast.LENGTH_SHORT).show()
-    //                    updateUI(null)
+                        progressDialog.hide()
+                        Utils.showSnackbar(getView()!!, "Authentication failed.")
                     }
                 }
         }

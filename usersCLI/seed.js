@@ -1,8 +1,8 @@
-const { firebase } = require('./utils/firebase');
+const { db } = require('./utils/firebase');
 const csv = require('csv-parser');
 const fs = require('fs');
 
-const db = firebase.ref('users');
+const usersCollection = db.collection('users');
 
 const users = [];
  
@@ -20,7 +20,7 @@ fs.createReadStream('./data/fakedatabase.csv')
       Destination,
       Passports
     } = data;
-    users.push(db.push().set({
+    users.push(usersCollection.add({
       name: Name,
       phone: Phone,
       email: Email,
@@ -31,6 +31,7 @@ fs.createReadStream('./data/fakedatabase.csv')
       destination: Destination,
       passports: Passports,
       status: false,
+      profilePicture: 'https://firebasestorage.googleapis.com/v0/b/tickettoto.appspot.com/o/blank-profile-picture-973460_640.png?alt=media&token=946bcfea-47ce-448c-a82d-e669e9965241',
     }));
   })
   .on('end', () => {

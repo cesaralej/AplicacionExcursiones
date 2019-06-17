@@ -13,4 +13,8 @@
     <string name="fragment_login_username_error">Empty email</string>
     <string name="fragment_login_password_error">Empty password</string>
 
+    <!-- Login Fragment -->
+    <string name="fragment_home_user_status_true">Checked</string>
+    <string name="fragment_home_user_status_false">Unchecked</string>
+
 </resources>

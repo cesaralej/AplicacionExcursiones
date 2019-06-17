@@ -9,4 +9,5 @@
     <string name="fragment_login_username_error">Email vacío</string>
     <string name="fragment_home_user_status_false">Sin revisar</string>
     <string name="fragment_home_user_status_true">Revisado</string>
+    <string name="fragment_home_menu_text">Cerrar sesión</string>
 </resources>

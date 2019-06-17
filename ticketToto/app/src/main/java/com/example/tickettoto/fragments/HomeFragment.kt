@@ -3,27 +3,36 @@ package com.example.tickettoto.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_home.*
 
 import com.example.tickettoto.R
 import com.example.tickettoto.adapters.UsersAdapter
+import com.example.tickettoto.helpers.FragmentHandler
 import com.example.tickettoto.helpers.Utils
 import com.example.tickettoto.models.User
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.gson.Gson
 
 
 class HomeFragment : Fragment() {
 
+    private lateinit var fragmentHandler: FragmentHandler
+
     companion object {
         fun getInstance(): HomeFragment = HomeFragment()
         val usersCollection = "users"
         val TAG = "HOME_FRAGMENT"
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -39,7 +48,12 @@ class HomeFragment : Fragment() {
 
         val viewManager = LinearLayoutManager(activity!!)
 
-        val db = FirebaseFirestore.getInstance()
+        val db = FirebaseFirestore.getInstance(
+        )
+        val settings = FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build()
+        db.firestoreSettings = settings
 
         val usersCollection = db.collection(usersCollection)
         val users = ArrayList<User>()
@@ -71,5 +85,24 @@ class HomeFragment : Fragment() {
 //        homeNFCButton.setOnClickListener {
 //
 //        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when(item!!.itemId) {
+            R.id.signOut -> {
+                item.isVisible = false
+                FirebaseAuth.getInstance().signOut()
+                fragmentHandler.add(LoginFragment.getInstance())
+                return true
+            }
+
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.home_menu, menu)
+        fragmentHandler = FragmentHandler(activity!! as AppCompatActivity, R.id.main_fragment_container)
+        super.onCreateOptionsMenu(menu, inflater)
     }
 }

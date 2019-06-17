@@ -16,5 +16,6 @@
     <!-- Login Fragment -->
     <string name="fragment_home_user_status_true">Checked</string>
     <string name="fragment_home_user_status_false">Unchecked</string>
+    <string name="fragment_home_menu_text">Sign out</string>
 
 </resources>

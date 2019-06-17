@@ -6,6 +6,7 @@ import com.example.tickettoto.fragments.HomeFragment
 import com.example.tickettoto.fragments.LoginFragment
 import com.example.tickettoto.helpers.FragmentHandler
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +16,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.AppTheme)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(main_toolbar)
 
         fragmentHandler = FragmentHandler(this, R.id.main_fragment_container)
 

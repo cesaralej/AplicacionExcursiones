@@ -5,4 +5,6 @@
     <string name="fragment_login_username">Correo electrónico</string>
     <string name="fragment_login_header_title">Bienvenido!</string>
     <string name="fragment_login_button">Iniciar sesión</string>
+    <string name="fragment_login_password_error">Contraseña vacía</string>
+    <string name="fragment_login_username_error">Email vacío</string>
 </resources>

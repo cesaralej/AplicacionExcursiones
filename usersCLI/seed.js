@@ -2,7 +2,7 @@ const { firebase } = require('./utils/firebase');
 const csv = require('csv-parser');
 const fs = require('fs');
 
-const db = firebase.child('users');
+const db = firebase.ref('users');
 
 const users = [];
  
@@ -30,6 +30,7 @@ fs.createReadStream('./data/fakedatabase.csv')
       school: School,
       destination: Destination,
       passports: Passports,
+      status: false,
     }));
   })
   .on('end', () => {

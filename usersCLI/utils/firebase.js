@@ -9,7 +9,7 @@ admin.initializeApp({
 
 const auth = admin.auth();
 
-const firebase = admin.database().ref();
+const firebase = admin.database();
 
 const uploadFile = async function uploadFile(storagePath, file) {
   const fileName = `${new Date().getTime()}.${file.mimetype.split('/')[1]}`;

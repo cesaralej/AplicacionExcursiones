@@ -9,4 +9,8 @@
     <string name="fragment_login_username">Email</string>
     <string name="fragment_login_password">Password</string>
     <string name="fragment_login_button">Login</string>
+
+    <string name="fragment_login_username_error">Empty email</string>
+    <string name="fragment_login_password_error">Empty password</string>
+
 </resources>

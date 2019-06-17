@@ -2,6 +2,7 @@ package com.example.tickettoto
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.tickettoto.fragments.HomeFragment
 import com.example.tickettoto.fragments.LoginFragment
 import com.example.tickettoto.helpers.FragmentHandler
 import com.google.firebase.auth.FirebaseAuth
@@ -23,7 +24,7 @@ class MainActivity : AppCompatActivity() {
             fragmentHandler.add(LoginFragment.getInstance())
 
         } else {
-//            fragmentHandler.add(UserFragment())
+            fragmentHandler.add(HomeFragment.getInstance())
         }
 
     }

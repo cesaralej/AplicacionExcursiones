@@ -13,9 +13,12 @@
     <string name="fragment_login_username_error">Empty email</string>
     <string name="fragment_login_password_error">Empty password</string>
 
-    <!-- Login Fragment -->
+    <!-- Home Fragment -->
+    <string name="fragment_home_user_status_all">All</string>
     <string name="fragment_home_user_status_true">Checked</string>
     <string name="fragment_home_user_status_false">Unchecked</string>
-    <string name="fragment_home_menu_text">Sign out</string>
+    <string name="fragment_home_menu_filter_data_text">Filter data</string>
+    <string name="fragment_home_menu_reset_data_text">Reset data</string>
+    <string name="fragment_home_menu__sign_out_text">Sign out</string>
 
 </resources>

@@ -5,4 +5,6 @@
 
     <dimen name="login_header_title">20sp</dimen>
     <dimen name="login_sub_title">12sp</dimen>
+
+    <dimen name="user_card_default_indent">16dp</dimen>
 </resources>

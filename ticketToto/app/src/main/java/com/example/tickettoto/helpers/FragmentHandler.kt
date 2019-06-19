@@ -14,7 +14,7 @@ class FragmentHandler(private val activity: AppCompatActivity, private val fragm
         const val NO_ADD_TO_BACK_STACK = "NO_ADD_TO_BACK_STACK"
     }
 
-    fun add(fragment: androidx.fragment.app.Fragment) {
+    fun add(fragment: androidx.fragment.app.Fragment, addToBackStack: Boolean = false) {
 
         val enterTransitionSet = TransitionSet()
         enterTransitionSet.addTransition(TransitionInflater.from(activity).inflateTransition(android.R.transition.move))
@@ -27,7 +27,7 @@ class FragmentHandler(private val activity: AppCompatActivity, private val fragm
         enterFade.duration = FADE_DEFAULT_TIME
         fragment.enterTransition = enterFade
 
-        activity.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        if (!addToBackStack) activity.supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(fragmentContainer!!, fragment)
         fragmentTransaction.addToBackStack(null)

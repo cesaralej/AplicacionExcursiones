@@ -5,10 +5,36 @@
     tools:context=".MainActivity">
 
     <item
+        android:id="@+id/filterData"
+        android:title="@string/fragment_home_menu_filter_data_text"
+        android:icon="@drawable/ic_filter_list_white_24dp"
+        app:showAsAction="ifRoom">
+
+        <menu>
+            <item
+                android:id="@+id/menuFilterAllData"
+                android:checkable="true"
+                android:title="@string/fragment_home_user_status_all" />
+
+            <item
+                android:id="@+id/menuFilterCheckedData"
+                android:checkable="true"
+                android:title="@string/fragment_home_user_status_true" />
+
+            <item
+                android:id="@+id/menuFilterUnCheckedData"
+                android:checkable="true"
+                android:title="@string/fragment_home_user_status_false" />
+        </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/resetData"
+        android:title="@string/fragment_home_menu_reset_data_text" />
+
+    <item
         android:id="@+id/signOut"
-        android:orderInCategory="300"
-        android:title="@string/fragment_home_menu_text"
-        android:icon="@drawable/ic_exit_to_app_white_24dp"
-        app:showAsAction="ifRoom" />
+        android:title="@string/fragment_home_menu__sign_out_text" />
 
 </menu>

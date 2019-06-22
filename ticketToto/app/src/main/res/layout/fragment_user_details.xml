@@ -8,62 +8,310 @@
     tools:context=".fragments.UserDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/userDetailsCardView"
+            style="@style/Widget.MaterialComponents.CardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:layout_constraintVertical_bias="0.0"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            card_view:cardCornerRadius="8dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:animateLayoutChanges="true">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/userDetailsCardView"
-                style="@style/Widget.MaterialComponents.CardView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                app:layout_constraintVertical_bias="0.0"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                card_view:cardCornerRadius="8dp">
+                <View
+                    android:id="@+id/userDetailsStatus"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/ic_remove_circle_grey_48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsProfileImageView" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:animateLayoutChanges="true">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/userDetailsProfileImageView"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:elevation="5dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsStatus"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsFullNameTextView" />
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/userDetailsProfileImageView"
-                        android:layout_width="0dp"
-                        android:layout_height="200dp"
-                        app:layout_constraintDimensionRatio="1:1"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toTopOf="@id/userDetailsNameTextView" />
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsFullNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/user_details_title"
+                    android:textColor="@color/browser_actions_title_color"
+                    android:layout_margin="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsProfileImageView"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailHeaderSeparator" />
 
-                    <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/userDetailsNameTextView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/userDetailsProfileImageView"
-                        app:layout_constraintBottom_toBottomOf="parent" />
+                <View
+                    android:id="@+id/userDetailHeaderSeparator"
+                    style="@style/userDetailsSectionSeparator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsFullNameTextView"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsEmailTitle" />
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                <!-- Email section -->
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsEmailTitle"
+                    style="@style/userDetailsSectionTitle"
+                    android:text="@string/user_card_recycler_view_email_section_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailHeaderSeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsEmailTextView" />
 
-            </com.google.android.material.card.MaterialCardView>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsEmailTextView"
+                    style="@style/userDetailsSectionText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsEmailTitle"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsEmailSeparator" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:id="@+id/userDetailsEmailSeparator"
+                    style="@style/userDetailsSectionSeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsPhoneTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsEmailTextView" />
+
+                <!-- Phone section -->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsPhoneTitle"
+                    style="@style/userDetailsSectionTitle"
+                    android:text="@string/user_card_recycler_view_phone_section_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsEmailSeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsPhoneTextView" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsPhoneTextView"
+                    style="@style/userDetailsSectionText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsPhoneTitle"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsPhoneSeparator" />
+
+                <View
+                    android:id="@+id/userDetailsPhoneSeparator"
+                    style="@style/userDetailsSectionSeparator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsPhoneTextView"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsBirthdayTitle" />
+
+                <!-- Birthday section -->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsBirthdayTitle"
+                    style="@style/userDetailsSectionTitle"
+                    android:text="@string/user_card_recycler_view_birthday_section_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsPhoneSeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsBirthdayTextView" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsBirthdayTextView"
+                    style="@style/userDetailsSectionText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsBirthdayTitle"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsBirthdaySeparator" />
+
+                <View
+                    android:id="@+id/userDetailsBirthdaySeparator"
+                    style="@style/userDetailsSectionSeparator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsBirthdayTextView"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsCompanyTitle" />
+
+                <!-- Company section -->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsCompanyTitle"
+                    style="@style/userDetailsSectionTitle"
+                    android:text="@string/user_card_recycler_view_company_section_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsBirthdaySeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsCompanyTextView" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsCompanyTextView"
+                    style="@style/userDetailsSectionText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsCompanyTitle"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsCompanySeparator" />
+
+                <View
+                    android:id="@+id/userDetailsCompanySeparator"
+                    style="@style/userDetailsSectionSeparator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsCompanyTextView"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsPassportTitle" />
+
+                <!-- Passport section -->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsPassportTitle"
+                    style="@style/userDetailsSectionTitle"
+                    android:text="@string/user_card_recycler_view_passport_section_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsCompanySeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsPassportTextView" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsPassportTextView"
+                    style="@style/userDetailsSectionText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsPassportTitle"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsPassportSeparator" />
+
+                <View
+                    android:id="@+id/userDetailsPassportSeparator"
+                    style="@style/userDetailsSectionSeparator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsPassportTextView"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsDestinationTitle" />
+
+                <!-- Destination section -->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsDestinationTitle"
+                    style="@style/userDetailsSectionTitle"
+                    android:text="@string/user_card_recycler_view_destination_section_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsPassportSeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsDestinationTextView" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsDestinationTextView"
+                    style="@style/userDetailsSectionText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsDestinationTitle"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsDestinationSeparator" />
+
+                <View
+                    android:id="@+id/userDetailsDestinationSeparator"
+                    style="@style/userDetailsSectionSeparator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsDestinationTextView"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsFamiliarFullNameTitle" />
+
+                <!-- Familiar full name section -->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsFamiliarFullNameTitle"
+                    style="@style/userDetailsSectionTitle"
+                    android:text="@string/user_card_recycler_view_familiar_full_name_section_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsDestinationSeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsFamiliarFullNameTextView" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsFamiliarFullNameTextView"
+                    style="@style/userDetailsSectionText"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsFamiliarFullNameTitle"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsFamiliarFullNameSeparator" />
+
+                <View
+                    android:id="@+id/userDetailsFamiliarFullNameSeparator"
+                    style="@style/userDetailsSectionSeparator"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsFamiliarFullNameTextView"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsFamiliarPhoneTitle" />
+
+                <!-- Familiar phone section -->
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsFamiliarPhoneTitle"
+                    style="@style/userDetailsSectionTitle"
+                    android:text="@string/user_card_recycler_view_familiar_phone_section_title"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsFamiliarFullNameSeparator"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsFamiliarPhoneTextView" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/userDetailsFamiliarPhoneTextView"
+                    style="@style/userDetailsSectionText"
+                    android:layout_marginBottom="@dimen/user_details_default_indent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/userDetailsFamiliarPhoneTitle"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!--<View-->
+                    <!--android:id="@+id/userDetailsFamiliarPhoneSeparator"-->
+                    <!--style="@style/userDetailsSectionSeparator"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toStartOf="parent"-->
+                    <!--app:layout_constraintTop_toBottomOf="@id/userDetailsFamiliarPhoneTextView"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent" />-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </androidx.core.widget.NestedScrollView>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/userDetailsCheckButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="80dp"
+        android:backgroundTint="@color/checked"
+        android:visibility="invisible"
+        android:src="@drawable/ic_check_white_24dp"
+        android:layout_gravity="bottom|end" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/userDetailsReaderButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_center_focus_strong_white_24dp"
+        android:layout_gravity="bottom|end" />
+    
 </FrameLayout>

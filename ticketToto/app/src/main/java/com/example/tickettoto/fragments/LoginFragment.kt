@@ -59,7 +59,7 @@ class LoginFragment : Fragment() {
                     } else {
                         Log.w(TAG, "signInWithEmail:failure", task.exception)
                         progressDialog.hide()
-                        Utils.showSnackbar(getView()!!, "Authentication failed.")
+                        Utils.showSnackbar(getView()!!, activity!!.getString(R.string.fragment_login_snackbar_error_auth_failed))
                     }
                 }
         }

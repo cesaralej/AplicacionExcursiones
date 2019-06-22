@@ -21,17 +21,17 @@ class UsersAdapter(private val activity: Activity, private val users: ArrayList<
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var name: TextView = itemView.findViewById(R.id.userRecyclerCardName)
         private var email: TextView = itemView.findViewById(R.id.userRecyclerCardEmail)
-        private var phone: TextView = itemView.findViewById(R.id.userRecyclerCardPhone)
+        private var destination: TextView = itemView.findViewById(R.id.userRecyclerCardDestination)
         private var status: View = itemView.findViewById(R.id.userRecyclerCardStatus)
 
         fun bind(activity: Activity, user: User, clickListener: OnClickListener) {
-            Glide.with(activity).load(user.profilePicture)
+            Glide.with(activity).load(user.profilePicture.url)
                 .apply(RequestOptions().placeholder(Utils.getCircularProgressDrawable(activity)))
                 .into(itemView.findViewById(R.id.userRecyclerCardProfileImageView))
-            name.text = user.name
+            name.text = activity.getString(R.string.user_card_recycler_view_name, user.firstName, user.lastName)
             email.text = user.email
-            phone.text = user.phone
-            status.background = if (user.status!!) activity.getDrawable(R.drawable.ic_check_circle_green_48dp)
+            destination.text = user.destination
+            status.background = if (user.status) activity.getDrawable(R.drawable.ic_check_circle_green_48dp)
                 else activity.getDrawable(R.drawable.ic_remove_circle_grey_48dp)
 
             itemView.setOnClickListener {
@@ -55,5 +55,4 @@ class UsersAdapter(private val activity: Activity, private val users: ArrayList<
     interface OnClickListener {
         fun onClick(user: User)
     }
-
 }

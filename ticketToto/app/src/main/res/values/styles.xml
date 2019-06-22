@@ -8,4 +8,30 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="userDetailsSectionTitle">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:gravity">start</item>
+        <item name="android:textSize">@dimen/user_details_section_title</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:layout_marginStart">@dimen/user_details_default_indent</item>
+    </style>
+
+    <style name="userDetailsSectionText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginStart">@dimen/user_details_default_indent</item>
+    </style>
+
+    <style name="userDetailsSectionSeparator">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:layout_marginStart">@dimen/user_details_default_indent</item>
+        <item name="android:background">@color/browser_actions_divider_color</item>
+    </style>
+
 </resources>

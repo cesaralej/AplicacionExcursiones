@@ -1,24 +1,26 @@
 package com.example.tickettoto.fragments
 
 
+import android.content.DialogInterface
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tickettoto.MainActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
 import com.example.tickettoto.R
 import com.example.tickettoto.adapters.UsersAdapter
 import com.example.tickettoto.helpers.FragmentHandler
 import com.example.tickettoto.helpers.Utils
+import com.example.tickettoto.lib.Firestore
 import com.example.tickettoto.models.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreSettings
 import com.google.gson.Gson
-import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.CollectionReference
 
 
@@ -27,17 +29,16 @@ class HomeFragment : Fragment() {
     private lateinit var fragmentHandler: FragmentHandler
     private lateinit var usersCollection: CollectionReference
     private lateinit var usersAdapter: UsersAdapter
-    private lateinit var users: ArrayList<User>
+    private lateinit var adapterUsers: ArrayList<User>
     private lateinit var allUsers: ArrayList<User>
     private lateinit var filterOption: Number
     private lateinit var menuFilterAllData: MenuItem
     private lateinit var menuFilterCheckedData: MenuItem
     private lateinit var menuFilterUnCheckedData: MenuItem
-
+    lateinit var resetDataDialog: AlertDialog
 
     companion object {
         fun getInstance(): HomeFragment = HomeFragment()
-        val usersCollectionName = "users"
         val TAG = "HOME_FRAGMENT"
     }
 
@@ -61,20 +62,13 @@ class HomeFragment : Fragment() {
 
         val progressDialog = Utils.showLoading(activity!!)
 
-        val db = FirebaseFirestore.getInstance()
-        val settings = FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .build()
-        db.firestoreSettings = settings
-        usersCollection = db.collection(usersCollectionName)
-
 //        Default filter menu selected option
         filterOption = 2
 
-        users = ArrayList()
+        adapterUsers = ArrayList()
         allUsers = ArrayList()
 
-        usersAdapter =  UsersAdapter(activity!!, users,
+        usersAdapter =  UsersAdapter(activity!!, adapterUsers,
             object: UsersAdapter.OnClickListener {
                 override fun onClick(user: User) {
                     fragmentHandler.add(UserDetailsFragment.getInstance(user), true)
@@ -82,7 +76,8 @@ class HomeFragment : Fragment() {
             }
         )
 
-//        TODO: Add snapshot changes listener
+        usersCollection = Firestore.usersCollection()
+
         usersCollection.get()
             .addOnSuccessListener { result ->
                 for (document in result) {
@@ -95,6 +90,7 @@ class HomeFragment : Fragment() {
                 progressDialog.hide()
             }
             .addOnFailureListener { exception ->
+                Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_error_getting_users))
                 Log.w(TAG, "Error getting documents.", exception)
                 progressDialog.hide()
             }
@@ -110,11 +106,10 @@ class HomeFragment : Fragment() {
                 for (document in snapshot.documents) {
                     val data = document.data
                     data!!.put("id", document.id)
-                    Log.d(TAG, "${document.id} => ${document.data}")
                     allUsers.add(Gson().fromJson(Gson().toJson(data).toString(), User::class.java))
                 }
                 updateUsers()
-                Log.d(TAG, "Current data: ${snapshot.documents.toString()}")
+                Log.d(TAG, "Current data: ${snapshot.documents}")
             } else {
                 Log.d(TAG, "Current data: null")
             }
@@ -135,11 +130,48 @@ class HomeFragment : Fragment() {
 //            }
 //        })
 
+        setNFCFabColor((activity!! as MainActivity).reading)
+
         homeNFCButton.setOnClickListener {
-            usersCollection.document(users[0].id!!).update("status", true).addOnSuccessListener {
-                Utils.showSnackbar(view, "${users[0].name} status updated!")
+            if ((activity!! as MainActivity).reading) {
+                (activity!! as MainActivity).stopReading()
+            } else {
+                (activity!! as MainActivity).startReading()
+            }
+            setNFCFabColor((activity!! as MainActivity).reading)
+        }
+
+//        Reset data confirmation dialog
+        val builder = AlertDialog.Builder(activity!!)
+        builder.setTitle(activity!!.getString(R.string.fragment_home_menu_reset_data_dialog_title))
+        builder.setMessage(activity!!.getString(R.string.fragment_home_menu_reset_data_dialog_text))
+
+        val dialogClickListener = DialogInterface.OnClickListener{ _, which ->
+            when(which){
+                DialogInterface.BUTTON_POSITIVE -> {
+                    progressDialog.show()
+                    for (user in allUsers) {
+                        usersCollection.document(user.id).update("status", false)
+                                .addOnSuccessListener {
+                                    if (user == allUsers.last()) {
+                                        progressDialog.hide()
+                                        Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_reset_data_successfully))
+                                    }
+                                }
+                                .addOnFailureListener { exception ->
+                                    Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_error_reset_data))
+                                    Log.w(TAG, "Error updating documents.", exception)
+                                    progressDialog.hide()
+                                }
+                    }
+                }
             }
         }
+
+        builder.setPositiveButton(activity!!.getString(R.string.fragment_home_menu_reset_data_dialog_yes), dialogClickListener)
+        builder.setNegativeButton(activity!!.getString(R.string.fragment_home_menu_reset_data_dialog_no), dialogClickListener)
+        builder.setNeutralButton(activity!!.getString(R.string.fragment_home_menu_reset_data_dialog_cancel), dialogClickListener)
+        resetDataDialog = builder.create()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -157,9 +189,7 @@ class HomeFragment : Fragment() {
                 updateFilterOption(menuFilterUnCheckedData, 2)
             }
             R.id.resetData -> {
-                for (user in allUsers) {
-                    usersCollection.document(user.id!!).update("status", false)
-                }
+                resetDataDialog.show()
             }
             R.id.signOut -> {
                 item.isVisible = false
@@ -201,16 +231,24 @@ class HomeFragment : Fragment() {
                 usersArrayList = allUsers.clone() as ArrayList<User>
             }
             1 -> {
-                usersArrayList = allUsers.filter { user -> user.status!! } as ArrayList<User>
+                usersArrayList = allUsers.filter { user -> user.status } as ArrayList<User>
             }
             2 -> {
-                usersArrayList = allUsers.filter { user -> !user.status!! } as ArrayList<User>
+                usersArrayList = allUsers.filter { user -> !user.status } as ArrayList<User>
             }
             else -> usersArrayList = ArrayList()
         }
-        users.clear()
-        users.addAll(usersArrayList)
-        Log.d(TAG, users.toString())
+        adapterUsers.clear()
+        adapterUsers.addAll(usersArrayList)
+        Log.d(TAG, adapterUsers.toString())
         usersAdapter.notifyDataSetChanged()
+    }
+
+    private fun setNFCFabColor(reading: Boolean) {
+        if (reading) {
+            homeNFCButton.backgroundTintList = ColorStateList.valueOf(activity!!.resources.getColor(R.color.reading))
+        } else {
+            homeNFCButton.backgroundTintList = ColorStateList.valueOf(activity!!.resources.getColor(R.color.colorAccent))
+        }
     }
 }

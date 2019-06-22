@@ -16,15 +16,14 @@ const storage = admin.storage().bucket(`gs://${PROJECT_NAME}.appspot.com`);
 const db = admin.firestore();
 db.settings({ timestampsInSnapshots: true });
 
-const uploadFile = async function uploadFile(storagePath, file) {
-  const fileName = `${new Date().getTime()}.${file.mimetype.split('/')[1]}`;
+const uploadFile = async function uploadFile(storagePath, filePath) {
+  const fileName = `${new Date().getTime()}.${filePath.split('.')[filePath.split('.').length-1]}`;
   const options = {
     destination: storage.file(`${storagePath}${fileName}`),
     resumable: false,
   };
   try {
-    const path = await tmpFile(file.buffer);
-    await storage.upload(path, options);
+    await storage.upload(filePath, options);
     const signedUrls = await storage.file(`${storagePath}${fileName}`).getSignedUrl({
       action: 'read',
       expires: '03-09-2491',

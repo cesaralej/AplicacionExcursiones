@@ -35,9 +35,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:ellipsize="marquee"
             android:textSize="24sp"
+            android:textColor="@color/browser_actions_title_color"
             android:gravity="start"
             android:layout_marginStart="@dimen/user_card_default_indent"
+            android:layout_marginEnd="@dimen/user_card_default_indent"
             app:layout_constraintStart_toEndOf="@id/userRecyclerCardProfileImageView"
             app:layout_constraintEnd_toStartOf="@id/userRecyclerCardStatus"
             app:layout_constraintTop_toTopOf="parent"
@@ -54,10 +57,10 @@
             app:layout_constraintStart_toEndOf="@id/userRecyclerCardProfileImageView"
             app:layout_constraintEnd_toStartOf="@id/userRecyclerCardStatus"
             app:layout_constraintTop_toBottomOf="@id/userRecyclerCardName"
-            app:layout_constraintBottom_toBottomOf="@id/userRecyclerCardPhone" />
+            app:layout_constraintBottom_toBottomOf="@id/userRecyclerCardDestination" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/userRecyclerCardPhone"
+            android:id="@+id/userRecyclerCardDestination"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="true"

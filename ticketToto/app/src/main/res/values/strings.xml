@@ -13,12 +13,39 @@
     <string name="fragment_login_username_error">Empty email</string>
     <string name="fragment_login_password_error">Empty password</string>
 
+    <string name="fragment_login_snackbar_error_auth_failed">Authentication failed.</string>
+
+
     <!-- Home Fragment -->
     <string name="fragment_home_user_status_all">All</string>
     <string name="fragment_home_user_status_true">Checked</string>
     <string name="fragment_home_user_status_false">Unchecked</string>
     <string name="fragment_home_menu_filter_data_text">Filter data</string>
     <string name="fragment_home_menu_reset_data_text">Reset data</string>
-    <string name="fragment_home_menu__sign_out_text">Sign out</string>
+    <string name="fragment_home_menu_sign_out_text">Sign out</string>
+
+    <string name="fragment_home_menu_reset_data_dialog_title">Are you sure?</string>
+    <string name="fragment_home_menu_reset_data_dialog_text">All users data will be reset</string>
+    <string name="fragment_home_menu_reset_data_dialog_yes">Yes</string>
+    <string name="fragment_home_menu_reset_data_dialog_no">No</string>
+    <string name="fragment_home_menu_reset_data_dialog_cancel">Cancel</string>
+
+    <string name="fragment_home_menu_snackbar_error_getting_users">Error getting users data, try again.</string>
+    <string name="fragment_home_menu_snackbar_reset_data_successfully">Users data reset successfully.</string>
+    <string name="fragment_home_menu_snackbar_error_reset_data">Users data reset failed, try again.</string>
+    <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s status updated!</string>
+
+
+    <!-- User card recycler view -->
+    <string name="user_card_recycler_view_name" translatable="false">%1$s %2$s</string>
+    <string name="user_card_recycler_view_call_button">Call</string>
+    <string name="user_card_recycler_view_email_section_title">Email</string>
+    <string name="user_card_recycler_view_phone_section_title">Phone</string>
+    <string name="user_card_recycler_view_birthday_section_title">Birthday</string>
+    <string name="user_card_recycler_view_company_section_title">Company</string>
+    <string name="user_card_recycler_view_passport_section_title">Passport</string>
+    <string name="user_card_recycler_view_destination_section_title">Destination</string>
+    <string name="user_card_recycler_view_familiar_full_name_section_title">Familiar full name</string>
+    <string name="user_card_recycler_view_familiar_phone_section_title">Familiar phone</string>
 
 </resources>

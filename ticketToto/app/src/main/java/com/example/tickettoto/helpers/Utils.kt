@@ -5,6 +5,8 @@ import android.app.Dialog
 import android.view.View
 import android.widget.ProgressBar
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.Priority
 import com.google.android.material.snackbar.Snackbar
 
 object Utils {
@@ -33,5 +35,13 @@ object Utils {
                 text,
                 Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    fun glideRequestOptions(activity: Activity): RequestOptions {
+        return RequestOptions()
+                .centerCrop()
+                .placeholder(getCircularProgressDrawable(activity))
+                .apply(RequestOptions.circleCropTransform())
+                .priority(Priority.HIGH)
     }
 }

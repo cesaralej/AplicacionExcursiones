@@ -61,29 +61,31 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     }
 
     override fun onTagDiscovered(tag: Tag?) {
-        Log.d(TAG, "Card readed!")
-        val parentLayout = findViewById<View>(android.R.id.content)
-        val usersCollection = Firestore.usersCollection()
+        if (tag != null) {
+            Log.d(TAG, "Card readed!")
+            val parentLayout = findViewById<View>(android.R.id.content)
+            val usersCollection = Firestore.usersCollection()
 
-        if (userId == null) {
-            usersCollection.whereEqualTo("tag", tag.hashCode()).get()
-                    .addOnSuccessListener { result ->
-                        if (result.documents.isNotEmpty()) {
-                            val user = result.documents[0]
-                            usersCollection.document(user.id).update("status", true)
-                            Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_status_updated,
-                                    user.data!!.get("firstName"),
-                                    user.data!!.get("lastName")))
+            if (userId == null) {
+                usersCollection.whereEqualTo("tag", tag.id).get()
+                        .addOnSuccessListener { result ->
+                            if (result.documents.isNotEmpty()) {
+                                val user = result.documents[0]
+                                usersCollection.document(user.id).update("status", true)
+                                Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_status_updated,
+                                        user.data!!.get("firstName"),
+                                        user.data!!.get("lastName")))
+                            }
                         }
-                    }
-                    .addOnFailureListener { exception ->
-                        Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_not_found))
-                    }
-        } else {
-            usersCollection.document(userId!!).update("tag", tag.hashCode())
-            Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_updated))
+                        .addOnFailureListener { exception ->
+                            Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_not_found))
+                        }
+            } else {
+                usersCollection.document(userId!!).update("tag", tag.id)
+                Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_updated))
+                userId = null
+            }
         }
-        userId = null
     }
 
     fun startReading(targetUserId: String = "") {

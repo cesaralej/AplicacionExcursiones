@@ -20,7 +20,7 @@ class UsersAdapter(private val activity: Activity, private val users: ArrayList<
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var name: TextView = itemView.findViewById(R.id.userRecyclerCardName)
-        private var email: TextView = itemView.findViewById(R.id.userRecyclerCardEmail)
+        private var company: TextView = itemView.findViewById(R.id.userRecyclerCardCompany)
         private var destination: TextView = itemView.findViewById(R.id.userRecyclerCardDestination)
         private var status: View = itemView.findViewById(R.id.userRecyclerCardStatus)
         private var tag: View = itemView.findViewById(R.id.userRecyclerCardTag)
@@ -30,7 +30,7 @@ class UsersAdapter(private val activity: Activity, private val users: ArrayList<
                 .apply(RequestOptions().placeholder(Utils.getCircularProgressDrawable(activity)))
                 .into(itemView.findViewById(R.id.userRecyclerCardProfileImageView))
             name.text = activity.getString(R.string.user_card_recycler_view_name, user.firstName, user.lastName)
-            email.text = user.email
+            company.text = user.company
             destination.text = user.destination
             status.background = if (user.status) activity.getDrawable(R.drawable.ic_check_circle_green_48dp)
                 else activity.getDrawable(R.drawable.ic_remove_circle_grey_48dp)

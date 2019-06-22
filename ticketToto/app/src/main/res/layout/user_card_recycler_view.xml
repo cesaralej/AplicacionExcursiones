@@ -44,10 +44,10 @@
             app:layout_constraintStart_toEndOf="@id/userRecyclerCardProfileImageView"
             app:layout_constraintEnd_toStartOf="@id/userRecyclerCardStatus"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/userRecyclerCardEmail" />
+            app:layout_constraintBottom_toTopOf="@id/userRecyclerCardCompany" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/userRecyclerCardEmail"
+            android:id="@+id/userRecyclerCardCompany"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
@@ -71,7 +71,7 @@
             android:layout_marginStart="@dimen/user_card_default_indent"
             app:layout_constraintStart_toEndOf="@id/userRecyclerCardProfileImageView"
             app:layout_constraintEnd_toStartOf="@id/userRecyclerCardStatus"
-            app:layout_constraintTop_toBottomOf="@id/userRecyclerCardEmail"
+            app:layout_constraintTop_toBottomOf="@id/userRecyclerCardCompany"
             app:layout_constraintBottom_toBottomOf="parent" />
 
         <View

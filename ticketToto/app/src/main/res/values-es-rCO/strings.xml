@@ -27,12 +27,14 @@
     <string name="user_card_recycler_view_familiar_phone_section_title">Teléfono del familiar</string>
     <string name="user_card_recycler_view_passport_section_title">Pasaporte</string>
     <string name="user_card_recycler_view_phone_section_title">Teléfono</string>
-    <string name="fragment_home_menu_snackbar_error_getting_users">Error obteniendo los datos de los usuarios, intenta de nuevo.</string>
+    <string name="fragment_home_menu_snackbar_error_getting_users">Error obteniendo los datos de los usuarios, intenta de nuevo</string>
     <string name="fragment_home_menu_snackbar_error_reset_data">%1$s %2$s estado actualizado!</string>
-    <string name="fragment_login_snackbar_error_auth_failed">Autentificación fallida.</string>
-    <string name="fragment_home_menu_snackbar_reset_data_successfully">Data de los usuarios restablecida correctamente.</string>
-    <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s estado actualizado.</string>
-    <string name="fragment_home_menu_snackbar_tag_updated">Manilla actualizada.</string>
+    <string name="fragment_login_snackbar_error_auth_failed">Autentificación fallida</string>
+    <string name="fragment_home_menu_snackbar_reset_data_successfully">Data de los usuarios restablecida correctamente</string>
+    <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s estado actualizado</string>
+    <string name="fragment_home_menu_snackbar_tag_updated">Manilla actualizada</string>
     <string name="fragment_home_user_tag_null">Sin registrar</string>
-    <string name="fragment_home_menu_snackbar_tag_not_found">Usuario no encontrado.</string>
+    <string name="fragment_home_menu_snackbar_tag_not_found">Usuario no encontrado</string>
+    <string name="fragment_home_menu_snackbar_reader_disabled">Lector activado</string>
+    <string name="fragment_home_menu_snackbar_reader_enabled">Lector desactivado</string>
 </resources>

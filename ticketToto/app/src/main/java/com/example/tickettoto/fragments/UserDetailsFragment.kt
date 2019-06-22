@@ -99,7 +99,7 @@ class UserDetailsFragment : Fragment() {
         }
 
         userDetailsReaderButton.setOnClickListener {
-            Utils.tagReader(activity!!, userDetailsReaderButton, user.id)
+            Utils.tagReader(activity!!, view, userDetailsReaderButton, user.id)
         }
 
     }

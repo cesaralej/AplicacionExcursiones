@@ -67,7 +67,8 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
             val usersCollection = Firestore.usersCollection()
 
             if (userId == null) {
-                usersCollection.whereEqualTo("tag", tag.id).get()
+                tag.id.toString()
+                usersCollection.whereEqualTo("tag", tag.id.toString()).get()
                         .addOnSuccessListener { result ->
                             if (result.documents.isNotEmpty()) {
                                 val user = result.documents[0]
@@ -81,7 +82,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
                             Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_not_found))
                         }
             } else {
-                usersCollection.document(userId!!).update("tag", tag.id)
+                usersCollection.document(userId!!).update("tag", tag.id.toString())
                 Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_updated))
                 userId = null
             }

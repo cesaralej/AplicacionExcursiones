@@ -51,12 +51,14 @@ object Utils {
                 .priority(Priority.HIGH)
     }
 
-    fun tagReader(activity: Activity, button: FloatingActionButton, userId: String = "") {
+    fun tagReader(activity: Activity, view: View, button: FloatingActionButton, userId: String = "") {
         val mainActivity = activity as MainActivity
         if (mainActivity.reading) {
             mainActivity.stopReading()
+            showSnackbar(view, activity.getString(R.string.fragment_home_menu_snackbar_reader_disabled))
         } else {
             mainActivity.startReading(userId)
+            showSnackbar(view, activity.getString(R.string.fragment_home_menu_snackbar_reader_enabled))
         }
         setNFCFabColor(activity, button, mainActivity.reading)
     }

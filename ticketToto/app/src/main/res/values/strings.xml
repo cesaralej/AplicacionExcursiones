@@ -13,7 +13,7 @@
     <string name="fragment_login_username_error">Empty email</string>
     <string name="fragment_login_password_error">Empty password</string>
 
-    <string name="fragment_login_snackbar_error_auth_failed">Authentication failed.</string>
+    <string name="fragment_login_snackbar_error_auth_failed">Authentication failed</string>
 
 
     <!-- Home Fragment -->
@@ -31,12 +31,15 @@
     <string name="fragment_home_menu_reset_data_dialog_no">No</string>
     <string name="fragment_home_menu_reset_data_dialog_cancel">Cancel</string>
 
-    <string name="fragment_home_menu_snackbar_error_getting_users">Error getting users data, try again.</string>
-    <string name="fragment_home_menu_snackbar_reset_data_successfully">Users data reset successfully.</string>
-    <string name="fragment_home_menu_snackbar_error_reset_data">Users data reset failed, try again.</string>
-    <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s status updated.</string>
-    <string name="fragment_home_menu_snackbar_tag_updated">User tag updated.</string>
-    <string name="fragment_home_menu_snackbar_tag_not_found">User not found.</string>
+    <string name="fragment_home_menu_snackbar_error_getting_users">Error getting users data, try again</string>
+    <string name="fragment_home_menu_snackbar_reset_data_successfully">Users data reset successfully</string>
+    <string name="fragment_home_menu_snackbar_error_reset_data">Users data reset failed, try again</string>
+    <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s status updated</string>
+    <string name="fragment_home_menu_snackbar_tag_updated">User tag updated</string>
+    <string name="fragment_home_menu_snackbar_tag_not_found">User not found</string>
+
+    <string name="fragment_home_menu_snackbar_reader_enabled">Reader enabled</string>
+    <string name="fragment_home_menu_snackbar_reader_disabled">Reader disabled</string>
 
 
     <!-- User card recycler view -->

@@ -131,7 +131,7 @@ class HomeFragment : Fragment() {
 //        })
 
         homeNFCButton.setOnClickListener {
-            Utils.tagReader(activity!!, homeNFCButton)
+            Utils.tagReader(activity!!, view, homeNFCButton)
         }
 
 //        Reset data confirmation dialog

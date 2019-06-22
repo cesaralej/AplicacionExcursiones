@@ -3,14 +3,17 @@ package com.example.tickettoto.fragments
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.tickettoto.MainActivity
 
 import com.example.tickettoto.R
 import kotlinx.android.synthetic.main.fragment_user_details.*
@@ -38,6 +41,11 @@ class UserDetailsFragment : Fragment() {
         arguments?.getParcelable<User>("USER")?.let {
             user = it
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity!! as MainActivity).stopReading()
     }
 
     override fun onResume() {
@@ -81,20 +89,17 @@ class UserDetailsFragment : Fragment() {
             }
         }
 
-        setStatus()
         Utils.setUserTagColor(activity!!, userDetailsTag, user.tag)
-
-        if (!user.status)  userDetailsCheckButton.show()
+        setStatus()
 
         userDetailsCheckButton.setOnClickListener {
-            usersCollection.document(user.id).update("status", true)
+            user.status = !user.status
+            usersCollection.document(user.id).update("status", user.status)
                     .addOnSuccessListener {
                         Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_status_updated,
                             user.firstName,
                             user.lastName))
-                        user.status = true
                         setStatus()
-                        userDetailsCheckButton.hide()
                     }
         }
 
@@ -105,7 +110,15 @@ class UserDetailsFragment : Fragment() {
     }
 
     private fun setStatus() {
-        userDetailsStatus.background = if (user.status) activity!!.getDrawable(R.drawable.ic_check_circle_green_48dp)
-        else activity!!.getDrawable(R.drawable.ic_remove_circle_grey_48dp)
+        if (user.status) {
+            userDetailsStatus.background = activity!!.getDrawable(R.drawable.ic_check_circle_green_48dp)
+            userDetailsCheckButton.setImageDrawable(activity!!.getDrawable(R.drawable.ic_close_white_24dp))
+            userDetailsCheckButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(activity!!, R.color.unChecked))
+        } else {
+            userDetailsStatus.background = activity!!.getDrawable(R.drawable.ic_remove_circle_grey_48dp)
+            userDetailsCheckButton.setImageDrawable(activity!!.getDrawable(R.drawable.ic_check_white_24dp))
+            userDetailsCheckButton.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(activity!!, R.color.checked))
+        }
     }
+
 }

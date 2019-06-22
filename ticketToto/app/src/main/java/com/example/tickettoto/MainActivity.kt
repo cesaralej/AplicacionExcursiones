@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     private lateinit var fragmentHandler: FragmentHandler
     private lateinit var actionBar : ActionBar
     private lateinit var fragmentManager: FragmentManager
-    private lateinit var userId: String
+    private var userId: String? = null
     private var nfcAdapter: NfcAdapter? = null
     var reading = false
 
@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         val parentLayout = findViewById<View>(android.R.id.content)
         val usersCollection = Firestore.usersCollection()
 
-        if (userId.isNullOrBlank()) {
+        if (userId == null) {
             val userQuerySnapshot = usersCollection.whereEqualTo("tag", tag).get()
             if (userQuerySnapshot.isSuccessful) {
                 val user = userQuerySnapshot.result!!.documents[0]
@@ -75,9 +75,10 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
                     user.data!!.get("lastName")))
             }
         } else {
-            usersCollection.document(userId).update("tag", tag)
+            usersCollection.document(userId!!).update("tag", tag)
             Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_updated))
         }
+        userId = null
     }
 
     fun startReading(targetUserId: String = "") {
@@ -92,7 +93,6 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     }
 
     fun stopReading() {
-        userId = ""
         if (reading) {
             nfcAdapter?.disableReaderMode(this)
             reading = false

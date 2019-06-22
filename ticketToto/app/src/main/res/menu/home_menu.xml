@@ -25,6 +25,11 @@
                 android:id="@+id/menuFilterUnCheckedData"
                 android:checkable="true"
                 android:title="@string/fragment_home_user_status_false" />
+
+            <item
+                android:id="@+id/menuFilterUnRegisteredData"
+                android:checkable="true"
+                android:title="@string/fragment_home_user_tag_null" />
         </menu>
 
     </item>

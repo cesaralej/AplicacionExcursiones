@@ -20,6 +20,7 @@
     <string name="fragment_home_user_status_all">All</string>
     <string name="fragment_home_user_status_true">Checked</string>
     <string name="fragment_home_user_status_false">Unchecked</string>
+    <string name="fragment_home_user_tag_null">Unregistered</string>
     <string name="fragment_home_menu_filter_data_text">Filter data</string>
     <string name="fragment_home_menu_reset_data_text">Reset data</string>
     <string name="fragment_home_menu_sign_out_text">Sign out</string>
@@ -33,8 +34,8 @@
     <string name="fragment_home_menu_snackbar_error_getting_users">Error getting users data, try again.</string>
     <string name="fragment_home_menu_snackbar_reset_data_successfully">Users data reset successfully.</string>
     <string name="fragment_home_menu_snackbar_error_reset_data">Users data reset failed, try again.</string>
-    <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s status updated!</string>
-
+    <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s status updated.</string>
+    <string name="fragment_home_menu_snackbar_tag_updated">User tag updated.</string>
 
     <!-- User card recycler view -->
     <string name="user_card_recycler_view_name" translatable="false">%1$s %2$s</string>

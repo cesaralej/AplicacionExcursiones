@@ -23,6 +23,7 @@ class UsersAdapter(private val activity: Activity, private val users: ArrayList<
         private var email: TextView = itemView.findViewById(R.id.userRecyclerCardEmail)
         private var destination: TextView = itemView.findViewById(R.id.userRecyclerCardDestination)
         private var status: View = itemView.findViewById(R.id.userRecyclerCardStatus)
+        private var tag: View = itemView.findViewById(R.id.userRecyclerCardTag)
 
         fun bind(activity: Activity, user: User, clickListener: OnClickListener) {
             Glide.with(activity).load(user.profilePicture.url)
@@ -33,6 +34,8 @@ class UsersAdapter(private val activity: Activity, private val users: ArrayList<
             destination.text = user.destination
             status.background = if (user.status) activity.getDrawable(R.drawable.ic_check_circle_green_48dp)
                 else activity.getDrawable(R.drawable.ic_remove_circle_grey_48dp)
+
+            Utils.setUserTagColor(activity, tag, user.tag)
 
             itemView.setOnClickListener {
                 clickListener.onClick(user)

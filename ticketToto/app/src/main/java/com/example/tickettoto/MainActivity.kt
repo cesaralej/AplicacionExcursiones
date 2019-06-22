@@ -21,13 +21,13 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     private lateinit var fragmentHandler: FragmentHandler
     private lateinit var actionBar : ActionBar
     private lateinit var fragmentManager: FragmentManager
+    private lateinit var userId: String
     private var nfcAdapter: NfcAdapter? = null
     var reading = false
 
     companion object {
         val TAG = "MAIN_ACTIVITY"
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
         setSupportActionBar(main_toolbar)
         actionBar = supportActionBar!!
-//        actionBar.setDisplayHomeAsUpEnabled(true)
 
         fragmentManager = supportFragmentManager
         fragmentHandler = FragmentHandler(this, R.id.main_fragment_container)
@@ -64,10 +63,25 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     override fun onTagDiscovered(tag: Tag?) {
         Log.d(TAG, "Card readed!")
         val parentLayout = findViewById<View>(android.R.id.content)
-        Utils.showSnackbar(parentLayout ,"Card readed!, tag: $tag")
+        val usersCollection = Firestore.usersCollection()
+
+        if (userId.isNullOrBlank()) {
+            val userQuerySnapshot = usersCollection.whereEqualTo("tag", tag).get()
+            if (userQuerySnapshot.isSuccessful) {
+                val user = userQuerySnapshot.result!!.documents[0]
+                usersCollection.document(user.id).update("status", true)
+                Utils.showSnackbar(parentLayout ,getString(R.string.fragment_home_menu_snackbar_status_updated,
+                    user.data!!.get("firstName"),
+                    user.data!!.get("lastName")))
+            }
+        } else {
+            usersCollection.document(userId).update("tag", tag)
+            Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_updated))
+        }
     }
 
-    fun startReading() {
+    fun startReading(targetUserId: String = "") {
+        if (targetUserId.isBlank()) userId = targetUserId
         if (!reading) {
             nfcAdapter?.enableReaderMode(this, this,
                     NfcAdapter.FLAG_READER_NFC_A or
@@ -78,16 +92,18 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     }
 
     fun stopReading() {
+        userId = ""
         if (reading) {
             nfcAdapter?.disableReaderMode(this)
             reading = false
         }
     }
 
-
-//    override fun onBackPressed() {
-//        super.onBackPressed()
-//        this.finish()
-//    }
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 1)
+            super.onBackPressed()
+        else
+            this.finish()
+    }
     //    private val navigationBackPressListener = View.OnClickListener { fragmentManager.popBackStack() }
 }

@@ -51,6 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:ellipsize="marquee"
             android:textSize="12sp"
             android:gravity="start"
             android:layout_marginStart="@dimen/user_card_default_indent"
@@ -64,6 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:ellipsize="marquee"
             android:textSize="12sp"
             android:gravity="start"
             android:layout_marginStart="@dimen/user_card_default_indent"
@@ -76,9 +78,21 @@
             android:id="@+id/userRecyclerCardStatus"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_marginEnd="@dimen/user_card_default_indent"
+            android:layout_marginStart="@dimen/user_card_default_indent"
             android:background="@drawable/ic_remove_circle_grey_48dp"
             app:layout_constraintStart_toEndOf="@id/userRecyclerCardName"
+            app:layout_constraintEnd_toStartOf="@id/userRecyclerCardTag"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <View
+            android:id="@+id/userRecyclerCardTag"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/unChecked"
+            android:background="@drawable/ic_nfc_white_24dp"
+            app:layout_constraintStart_toEndOf="@id/userRecyclerCardStatus"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />

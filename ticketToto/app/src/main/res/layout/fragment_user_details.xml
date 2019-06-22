@@ -36,6 +36,17 @@
                     android:layout_height="48dp"
                     android:layout_margin="8dp"
                     android:background="@drawable/ic_remove_circle_grey_48dp"
+                    app:layout_constraintEnd_toStartOf="@id/userDetailsTag"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/userDetailsProfileImageView" />
+
+                <View
+                    android:id="@+id/userDetailsTag"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="8dp"
+                    android:backgroundTint="@color/unChecked"
+                    android:background="@drawable/ic_nfc_white_24dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/userDetailsProfileImageView" />

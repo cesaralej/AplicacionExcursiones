@@ -2,12 +2,18 @@ package com.example.tickettoto.helpers
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.res.ColorStateList
 import android.view.View
 import android.widget.ProgressBar
+import androidx.core.content.ContextCompat
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.Priority
+import com.example.tickettoto.MainActivity
+import com.example.tickettoto.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_home.*
 
 object Utils {
     fun getCircularProgressDrawable(activity: Activity): CircularProgressDrawable {
@@ -43,5 +49,31 @@ object Utils {
                 .placeholder(getCircularProgressDrawable(activity))
                 .apply(RequestOptions.circleCropTransform())
                 .priority(Priority.HIGH)
+    }
+
+    fun tagReader(activity: Activity, button: FloatingActionButton, userId: String = "") {
+        val mainActivity = activity as MainActivity
+        if (mainActivity.reading) {
+            mainActivity.stopReading()
+        } else {
+            mainActivity.startReading(userId)
+        }
+        setNFCFabColor(activity, button, mainActivity.reading)
+    }
+
+    private fun setNFCFabColor(activity: Activity, button: FloatingActionButton, reading: Boolean) {
+        if (reading) {
+            button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.reading))
+        } else {
+            button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.colorAccent))
+        }
+    }
+
+    fun setUserTagColor(activity: Activity, tag: View, tagValue: String?) {
+        if (tagValue.isNullOrBlank()) {
+            tag.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.unChecked))
+        } else {
+            tag.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(activity, R.color.checked))
+        }
     }
 }

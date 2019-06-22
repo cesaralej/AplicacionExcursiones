@@ -2,7 +2,6 @@ package com.example.tickettoto.fragments
 
 
 import android.content.DialogInterface
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -10,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.tickettoto.MainActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
 import com.example.tickettoto.R
@@ -35,6 +33,8 @@ class HomeFragment : Fragment() {
     private lateinit var menuFilterAllData: MenuItem
     private lateinit var menuFilterCheckedData: MenuItem
     private lateinit var menuFilterUnCheckedData: MenuItem
+    private lateinit var menuFilterUnRegisteredData: MenuItem
+
     lateinit var resetDataDialog: AlertDialog
 
     companion object {
@@ -130,15 +130,8 @@ class HomeFragment : Fragment() {
 //            }
 //        })
 
-        setNFCFabColor((activity!! as MainActivity).reading)
-
         homeNFCButton.setOnClickListener {
-            if ((activity!! as MainActivity).reading) {
-                (activity!! as MainActivity).stopReading()
-            } else {
-                (activity!! as MainActivity).startReading()
-            }
-            setNFCFabColor((activity!! as MainActivity).reading)
+            Utils.tagReader(activity!!, homeNFCButton)
         }
 
 //        Reset data confirmation dialog
@@ -188,6 +181,10 @@ class HomeFragment : Fragment() {
                 homeNFCButton.show()
                 updateFilterOption(menuFilterUnCheckedData, 2)
             }
+            R.id.menuFilterUnRegisteredData -> {
+                homeNFCButton.show()
+                updateFilterOption(menuFilterUnRegisteredData, 3)
+            }
             R.id.resetData -> {
                 resetDataDialog.show()
             }
@@ -209,6 +206,7 @@ class HomeFragment : Fragment() {
         menuFilterAllData = menu.findItem(R.id.menuFilterAllData)
         menuFilterCheckedData = menu.findItem(R.id.menuFilterCheckedData)
         menuFilterUnCheckedData = menu.findItem(R.id.menuFilterUnCheckedData)
+        menuFilterUnRegisteredData = menu.findItem(R.id.menuFilterUnRegisteredData)
 
         menuFilterUnCheckedData.isChecked = true
     }
@@ -218,6 +216,7 @@ class HomeFragment : Fragment() {
             0 -> menuFilterAllData.isChecked = false
             1 -> menuFilterCheckedData.isChecked = false
             2 -> menuFilterUnCheckedData.isChecked = false
+            3 -> menuFilterUnRegisteredData.isChecked = false
         }
         filterOption = selectedOption
         selectedItem.isChecked = true
@@ -236,19 +235,14 @@ class HomeFragment : Fragment() {
             2 -> {
                 usersArrayList = allUsers.filter { user -> !user.status } as ArrayList<User>
             }
+            3 -> {
+                usersArrayList = allUsers.filter { user -> user.tag.isNullOrBlank() } as ArrayList<User>
+            }
             else -> usersArrayList = ArrayList()
         }
         adapterUsers.clear()
         adapterUsers.addAll(usersArrayList)
         Log.d(TAG, adapterUsers.toString())
         usersAdapter.notifyDataSetChanged()
-    }
-
-    private fun setNFCFabColor(reading: Boolean) {
-        if (reading) {
-            homeNFCButton.backgroundTintList = ColorStateList.valueOf(activity!!.resources.getColor(R.color.reading))
-        } else {
-            homeNFCButton.backgroundTintList = ColorStateList.valueOf(activity!!.resources.getColor(R.color.colorAccent))
-        }
     }
 }

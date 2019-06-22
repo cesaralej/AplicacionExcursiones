@@ -19,7 +19,6 @@ import com.example.tickettoto.lib.Firestore
 import com.example.tickettoto.models.User
 import com.google.firebase.firestore.CollectionReference
 
-
 class UserDetailsFragment : Fragment() {
 
     private lateinit var user: User
@@ -83,17 +82,24 @@ class UserDetailsFragment : Fragment() {
         }
 
         setStatus()
+        Utils.setUserTagColor(activity!!, userDetailsTag, user.tag)
 
         if (!user.status)  userDetailsCheckButton.show()
 
         userDetailsCheckButton.setOnClickListener {
             usersCollection.document(user.id).update("status", true)
                     .addOnSuccessListener {
-                        Utils.showSnackbar(view, "${user.firstName} ${user.lastName} status updated!")
+                        Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_status_updated,
+                            user.firstName,
+                            user.lastName))
                         user.status = true
                         setStatus()
                         userDetailsCheckButton.hide()
                     }
+        }
+
+        userDetailsReaderButton.setOnClickListener {
+            Utils.tagReader(activity!!, userDetailsReaderButton, user.id)
         }
 
     }

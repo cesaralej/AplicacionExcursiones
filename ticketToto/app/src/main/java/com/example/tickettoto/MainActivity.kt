@@ -66,14 +66,17 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         val usersCollection = Firestore.usersCollection()
 
         if (userId == null) {
-            val userQuerySnapshot = usersCollection.whereEqualTo("tag", tag.hashCode()).get()
-            if (userQuerySnapshot.isSuccessful) {
-                val user = userQuerySnapshot.result!!.documents[0]
-                usersCollection.document(user.id).update("status", true)
-                Utils.showSnackbar(parentLayout ,getString(R.string.fragment_home_menu_snackbar_status_updated,
-                    user.data!!.get("firstName"),
-                    user.data!!.get("lastName")))
-            }
+            usersCollection.whereEqualTo("tag", tag.hashCode()).get()
+                    .addOnSuccessListener { result ->
+                        val user = result.documents[0]
+                        usersCollection.document(user.id).update("status", true)
+                        Utils.showSnackbar(parentLayout ,getString(R.string.fragment_home_menu_snackbar_status_updated,
+                                user.data!!.get("firstName"),
+                                user.data!!.get("lastName")))
+                    }
+                    .addOnFailureListener { exception ->
+                        Utils.showSnackbar(parentLayout, "User not found")
+                    }
         } else {
             usersCollection.document(userId!!).update("tag", tag.hashCode())
             Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_updated))
@@ -97,6 +100,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
             nfcAdapter?.disableReaderMode(this)
             reading = false
         }
+        userId = null
     }
 
     override fun onBackPressed() {

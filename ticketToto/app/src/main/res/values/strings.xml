@@ -36,6 +36,8 @@
     <string name="fragment_home_menu_snackbar_error_reset_data">Users data reset failed, try again.</string>
     <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s status updated.</string>
     <string name="fragment_home_menu_snackbar_tag_updated">User tag updated.</string>
+    <string name="fragment_home_menu_snackbar_tag_not_found">User not found.</string>
+
 
     <!-- User card recycler view -->
     <string name="user_card_recycler_view_name" translatable="false">%1$s %2$s</string>

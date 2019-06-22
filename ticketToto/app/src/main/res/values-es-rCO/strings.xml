@@ -34,4 +34,5 @@
     <string name="fragment_home_menu_snackbar_status_updated">%1$s %2$s estado actualizado.</string>
     <string name="fragment_home_menu_snackbar_tag_updated">Manilla actualizada.</string>
     <string name="fragment_home_user_tag_null">Sin registrar</string>
+    <string name="fragment_home_menu_snackbar_tag_not_found">Usuario no encontrado.</string>
 </resources>

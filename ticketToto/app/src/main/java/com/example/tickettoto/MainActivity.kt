@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
     }
 
     fun startReading(targetUserId: String = "") {
-        if (targetUserId.isBlank()) userId = targetUserId
+        if (targetUserId.isNotBlank()) userId = targetUserId
         if (!reading) {
             nfcAdapter?.enableReaderMode(this, this,
                     NfcAdapter.FLAG_READER_NFC_A or

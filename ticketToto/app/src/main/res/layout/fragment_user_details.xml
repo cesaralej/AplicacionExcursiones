@@ -28,6 +28,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
                 android:animateLayoutChanges="true">
 
                 <View
@@ -311,8 +312,6 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="80dp"
-        android:backgroundTint="@color/checked"
-        android:visibility="invisible"
         android:src="@drawable/ic_check_white_24dp"
         android:layout_gravity="bottom|end" />
 

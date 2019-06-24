@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.tickettoto.MainActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 
 import com.example.tickettoto.R
@@ -20,6 +21,7 @@ import com.example.tickettoto.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query
 
 
 class HomeFragment : Fragment() {
@@ -45,6 +47,11 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        (activity!! as MainActivity).stopReading()
     }
 
     override fun onCreateView(
@@ -78,22 +85,23 @@ class HomeFragment : Fragment() {
 
         usersCollection = Firestore.usersCollection()
 
-        usersCollection.get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val data = document.data
-                    data.put("id", document.id)
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    allUsers.add(Gson().fromJson(Gson().toJson(data).toString(), User::class.java))
+        usersCollection.orderBy("lastName")
+                .get()
+                .addOnSuccessListener { result ->
+                    for (document in result.documents) {
+                        val data = document.data
+                        data!!["id"] = document.id
+                        Log.d(TAG, "${document.id} => ${document.data}")
+                        allUsers.add(Gson().fromJson(Gson().toJson(data).toString(), User::class.java))
+                    }
+                    updateUsers()
+                    progressDialog.hide()
                 }
-                updateUsers()
-                progressDialog.hide()
-            }
-            .addOnFailureListener { exception ->
-                Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_error_getting_users))
-                Log.w(TAG, "Error getting documents.", exception)
-                progressDialog.hide()
-            }
+                .addOnFailureListener { exception ->
+                    Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_error_getting_users))
+                    Log.w(TAG, "Error getting documents.", exception)
+                    progressDialog.hide()
+                }
 
         usersCollection.addSnapshotListener { snapshot, e ->
             if (e != null) {
@@ -102,11 +110,14 @@ class HomeFragment : Fragment() {
             }
 
             if (snapshot != null) {
-                allUsers.clear()
-                for (document in snapshot.documents) {
+                for (documentChange in snapshot.documentChanges) {
+                    val document = documentChange.document
                     val data = document.data
-                    data!!.put("id", document.id)
-                    allUsers.add(Gson().fromJson(Gson().toJson(data).toString(), User::class.java))
+                    val user = allUsers.find { user -> user.id == document.id }
+                    if (user != null) {
+                        user.status = data["status"].toString().toBoolean()
+                        user.tag = data["tag"].toString()
+                    }
                 }
                 updateUsers()
                 Log.d(TAG, "Current data: ${snapshot.documents}")
@@ -143,20 +154,30 @@ class HomeFragment : Fragment() {
             when(which){
                 DialogInterface.BUTTON_POSITIVE -> {
                     progressDialog.show()
-                    for (user in allUsers) {
-                        usersCollection.document(user.id).update("status", false)
-                                .addOnSuccessListener {
-                                    if (user == allUsers.last()) {
-                                        progressDialog.hide()
-                                        Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_reset_data_successfully))
+                    usersCollection.whereEqualTo("status", true)
+                            .get()
+                            .addOnSuccessListener { result ->
+                                if (!result.isEmpty) {
+                                    for (user in result!!.documents) {
+                                        usersCollection.document(user.id).update("status", false)
+                                                .addOnSuccessListener {
+                                                    if (user.id == result.documents.last().id) {
+                                                        progressDialog.hide()
+                                                        Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_reset_data_successfully))
+                                                    }
+                                                }
+                                                .addOnFailureListener { exception ->
+                                                    Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_error_reset_data))
+                                                    Log.w(TAG, "Error updating documents.", exception)
+                                                    progressDialog.hide()
+                                                }
                                     }
                                 }
-                                .addOnFailureListener { exception ->
-                                    Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_error_reset_data))
-                                    Log.w(TAG, "Error updating documents.", exception)
-                                    progressDialog.hide()
-                                }
-                    }
+                            }
+                            .addOnFailureListener { exception ->
+                                Utils.showSnackbar(view, activity!!.getString(R.string.fragment_home_menu_snackbar_error_reset_data))
+                                Log.w(TAG, "Error updating documents.", exception)
+                            }
                 }
             }
         }

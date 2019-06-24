@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
         setContentView(R.layout.activity_main)
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
+//        nfcAdapter!!.disableForegroundDispatch(this@MainActivity)
 
         setSupportActionBar(main_toolbar)
         actionBar = supportActionBar!!
@@ -62,27 +63,30 @@ class MainActivity : AppCompatActivity(), NfcAdapter.ReaderCallback {
 
     override fun onTagDiscovered(tag: Tag?) {
         if (tag != null) {
-            Log.d(TAG, "Card readed!")
+            val tagId = Utils.toHex(tag.id)
+            Log.d(TAG, "Card readed! $tagId")
             val parentLayout = findViewById<View>(android.R.id.content)
             val usersCollection = Firestore.usersCollection()
 
             if (userId == null) {
-                tag.id.toString()
-                usersCollection.whereEqualTo("tag", tag.id.toString()).get()
+                usersCollection.whereEqualTo("tag", tagId).get()
                         .addOnSuccessListener { result ->
                             if (result.documents.isNotEmpty()) {
                                 val user = result.documents[0]
-                                usersCollection.document(user.id).update("status", true)
-                                Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_status_updated,
-                                        user.data!!.get("firstName"),
-                                        user.data!!.get("lastName")))
+                                if (!user.data!!["status"].toString().toBoolean()) {
+                                    usersCollection.document(user.id).update("status", true)
+                                    Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_status_updated,
+                                            user.data!!["firstName"],
+                                            user.data!!["lastName"]))
+                                }
                             }
                         }
                         .addOnFailureListener { exception ->
+                            Log.d(TAG, exception.message)
                             Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_not_found))
                         }
             } else {
-                usersCollection.document(userId!!).update("tag", tag.id.toString())
+                usersCollection.document(userId!!).update("tag", tagId)
                 Utils.showSnackbar(parentLayout, getString(R.string.fragment_home_menu_snackbar_tag_updated))
                 userId = null
             }

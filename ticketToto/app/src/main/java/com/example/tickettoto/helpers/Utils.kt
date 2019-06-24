@@ -16,6 +16,22 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_home.*
 
 object Utils {
+
+    private val HEX_CHARS_ARRAY = "0123456789ABCDEF".toCharArray()
+    fun toHex(byteArray: ByteArray) : String {
+        val result = StringBuffer()
+
+        byteArray.forEach {
+            val octet = it.toInt()
+            val firstIndex = (octet and 0xF0).ushr(4)
+            val secondIndex = octet and 0x0F
+            result.append(HEX_CHARS_ARRAY[firstIndex])
+            result.append(HEX_CHARS_ARRAY[secondIndex])
+        }
+
+        return result.toString()
+    }
+
     fun getCircularProgressDrawable(activity: Activity): CircularProgressDrawable {
         val circularProgressDrawable = CircularProgressDrawable(activity)
         circularProgressDrawable.strokeWidth = 5f
@@ -29,6 +45,7 @@ object Utils {
         val dialog = ProgressBar(activity)
         dialog.isIndeterminate = true
         dialog.visibility = View.VISIBLE
+        dialog.isClickable = false
         progressDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
         progressDialog.setContentView(dialog)
         progressDialog.show()

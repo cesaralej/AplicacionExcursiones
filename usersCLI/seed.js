@@ -2,13 +2,6 @@ const path = require('path');
 const { db, uploadFile } = require('./utils/firebase');
 const usersData = require('./data/fakedata.json');
 
-  // Buffer mydata
-  var BUFFER = bufferFile('../public/mydata.png');
-
-  function bufferFile(relPath) {
-    return ; // zzzz....
-  }
-
 const usersCollection = db.collection('users');
 
 (async () => {
